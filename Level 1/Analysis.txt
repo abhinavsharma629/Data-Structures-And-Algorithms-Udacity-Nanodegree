@@ -1,0 +1,305 @@
+										SUMMARY
+
+TASK 0:
+O(Maximum(Number of lines in csv file1 , Number of lines in csv2))
+ => O(1) #if we consider the reading of lines of file to be constant
+
+TASK 1:
+O( Maximum( Number of lines in csv file1 , Number of lines in csv file2))
+=> O(N+M) => O(max(N,M))
+
+Note:  We are considering addition to the set in O(1) where due to Amortized time concept it can be O(N) but only very few times. So on average its O(1).
+
+TASK 2:
+O(Maximum ( Number of lines in csv file1, Number of lines in csv file2))
+=> O(N+M) => O(max(N,M))
+
+TASK 3:
+O(Number of lines in csv file1 * Log(Number of lines in csv file1))
+=> O(N+MLogM) => O(MLogM)
+
+TASK 4:
+O(Number of lines in csv file1 * Log(Number of lines in csv file1))
+=> O(N+MLogM) => O(MLogM)
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+											TASK 0
+
+import csv
+with open('texts.csv', 'r') as f:         -> O(1)
+    reader = csv.reader(f)          -> O(Number of lines in csv file1)
+    texts = list(reader)[0]	-> O(1)
+    print("First record of texts, {} texts {} at time {}".format(texts[0], texts[1], texts[2])) 	-> O(1)
+
+Total = O(Number of lines in csv file1) + O(1) + O(1)
+As O(1) and O(1) are considered as constants therefore
+Total = O(Number of lines in csv file1)
+------------------------------------------------------------------------------------------------------------------------------------------
+with open('calls.csv', 'r') as f:	 -> O(1)
+    reader = csv.reader(f)		 -> O(Number of lines in csv file2)
+    calls = list(reader) 		-> O(Number of lines in csv file2)
+    calls=calls[len(calls)-1] 	-> O(1)
+    print("Last record of calls, {} calls {} at time {}, lasting {} seconds".format(calls[0], calls[1], calls[2], calls[3])) 			-> O(1)
+
+Total = O(Number of lines in csv file1) + O(Number of lines in csv file2) + O(1) + O(1) + O(1)
+As all O(1) are considered as constants and as O(Number of lines in csv file2) + O(Number of lines in csv file2) = O(Number of lines in csv file2)
+
+Therefore final TC : O(Number of lines in csv file1) + O(Number of lines in csv file2)
+O(Maximum(Number of lines in csv file1 , Number of lines in csv2))
+
+
+
+
+
+
+
+										TASK 1
+
+import csv
+
+# Using Sets for neglecting duplicates
+final_list=set([])
+
+with open('texts.csv', 'r') as f:         -> O(1)
+    reader = csv.reader(f)          -> O(Number of lines in csv file1)
+    texts = list(reader)	         -> O(Number of lines in csv file1)
+    #Appending to set in not present
+    for i in texts:       	          -> O(Number of lines in csv file1)
+    	final_list.add(i[0])       -> O(1)
+    	final_list.add(i[1])       -> O(1)
+
+Total = O(Number of lines in csv file) + O(Number of lines in csv file1) + O(Number of lines in csv file1) + O(1) + O(1) + O(1)
+As all O(1) are considered as constants and as O(Number of lines in csv file1) + O(Number of lines in csv file1) = O(Number of lines in csv file1)
+Total = O(Number of lines in csv file1)
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+with open('calls.csv', 'r') as f:	 -> O(1)
+    reader = csv.reader(f)		 -> O(Number of lines in csv file2)
+    calls = list(reader) 		-> O(Number of lines in csv file2)
+    #Adding to set in not present
+    for i in calls:       	          -> O(Number of lines in csv file2)
+    	final_list.add(i[0])       -> O(1)
+    	final_list.add(i[1])       -> O(1)
+
+print("There are {} different telephone numbers in the records.".format(len(final_list)))   -> O(1)
+Total = O(Number of lines in csv file2) + O(Number of lines in csv file2) + O(Number of lines in csv file2) + O(1) + O(1) + O(1)
+As all O(1) are considered as constants and as O(Number of lines in csv file2) + O(Number of lines in csv file2) = O(Number of lines in csv file2)
+Total = O(Number of lines in csv file2)
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Therefore final TC :
+O( Maximum( Number of lines in csv file1 , Number of lines in csv file2))
+
+Note:  We are considering addition to the set in O(1) where due to Amortized time concept it can be O(N) but only very few times. So on average its O(1).
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+									Task 2
+
+with open('calls.csv', 'r') as f:
+    reader = csv.reader(f)
+    calls = list(reader)
+
+    max_call_log={}
+
+    for i in calls:
+    	# calculating max
+    	if(i[0] in max_call_log):
+    		max_call_log[i[0]]+=(int)(i[3])
+    	else:
+    		max_call_log[i[0]]=(int)(i[3])
+
+    	if(i[2] in max_call_log):
+    		max_call_log[i[2]]+=(int)(i[3])
+    	else:
+    		max_call_log[i[2]]=(int)(i[3])
+
+    phone=""
+    maxi=0
+    for i,j in max_call_log.items():
+    	if(j>maxi):
+    		maxi=j
+    		phone=i
+    print("{} spent the longest time, {} seconds, on the phone during September 2016.".format(phone, maxi))
+
+
+TC: O(Max(NumberOfLines of file1,NumberOfLines of file2))
+--------------------------------------------------------------------------------------------------------------------
+
+
+
+
+									TASK 3
+"""
+Read file into texts and calls.
+It's ok if you don't understand how to read files.
+"""
+import csv
+
+with open('texts.csv', 'r') as f:	 -> O(Number of lines in csv file1)
+    reader = csv.reader(f)		-> O(Number of lines in csv file1)
+    texts = list(reader) 		-> O(Number of lines in csv file1)
+
+
+def checkCaller(phone_no): 	-> O(1)
+	if(len(phone_no.split("("))>0):
+		return True
+
+
+def checkCaller(phone_no): 	-> O(1)
+	if(phone_no[0]=="("):
+		return True if phone_no.split("(")[1].split(")")[0]=="080" else False
+
+	return False
+
+def getReceiver(phone_no): 	-> O(1)
+	# if telephone no
+	if(phone_no[0]=="("):
+		return phone_no.split("(")[1].split(")")[0]
+
+	# if mobile no
+	elif(len(phone_no.split(" "))>0):
+		return phone_no.split(" ")[0]
+
+	# if telemarketers no
+	else:
+		return phone_no.split("140")[1]
+
+
+list_of_codes=set([])
+calls_total=0
+call_and_receive_total=0
+
+
+with open('calls.csv', 'r') as f: 	-> O(Number of lines in csv file2)
+    reader = csv.reader(f) 	-> O(Number of lines in csv file2)
+    calls = list(reader) 		-> O(Number of lines in csv file2)
+
+    for call in calls: 		-> O(Number of lines in csv file2)
+        # check if caller from banglore
+    	isCallerFromBanglore=checkCaller(call[0])	-> O(1)
+    	getReceiverNo=getReceiver(call[1])		-> O(1)
+
+    	# if caller from banglore
+    	if(isCallerFromBanglore): 			-> O(1)
+    		list_of_codes.add(getReceiverNo) 	-> O(1)
+
+            # check if receiver from banglore
+    		isReceiverFromBanglore=checkCaller(call[1]) -> O(1)
+    		if(isReceiverFromBanglore): 			-> O(1)
+                # inc banglore -> banglore calls count
+    			call_and_receive_total+=1		-> O(1)
+
+            # inc total banglore calls count
+    		calls_total+=1					-> O(1)
+
+    print("The numbers called by people in Bangalore have codes:") 	-> O(1)
+
+    list_of_codes=sorted(list_of_codes)
+    for list_code in list_of_codes:
+    	print(list_code)
+
+    percent=round((float)((call_and_receive_total/calls_total))*100,2) 	-> O(1)
+    print("{} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.".format(percent)) 						-> O(1)
+
+
+
+
+Total = O(Number of lines in csv file1) *3 + O(Number of lines in csv file2)*5 + O(1)* 14
+As all O(1) are considered as constants and as O(Number of lines in csv file) + O(Number of lines in csv file) = O(Number of lines in csv file)
+-------------------------------------------------------------------------------------------------------------------------------
+Therefore final TC :
+O(Maximum ( Number of lines in csv file1, Number of lines in csv file2))
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+											TASK 4
+"""
+Read file into texts and calls.
+It's ok if you don't understand how to read files.
+"""
+import csv
+
+
+telemarketers={}
+receivers=set([])
+
+with open('calls.csv', 'r') as f: 	-> O(Number of lines in csv file1)
+    reader = csv.reader(f)		-> O(Number of lines in csv file1)
+    calls = list(reader) 		-> O(Number of lines in csv file1)
+
+    for call in calls:		 -> O(Number of lines in csv file1)
+    	telemarketers[call[0]]=1
+
+    	# if already present in telemarketers dict then remove caller
+    	if(call[1] in telemarketers):
+    		del telemarketers[call[1]]
+    	else:
+    		receivers.add(call[1]) # add to receivers list
+
+
+with open('texts.csv', 'r') as f: 	-> O(Number of lines in csv file2)
+    reader = csv.reader(f) 	-> O(Number of lines in csv file2)
+    texts = list(reader) 		-> O(Number of lines in csv file2)
+
+    # remove text senders and receivers from telemarketers list
+    for text in texts: 		-> O(Number of lines in csv file2)
+    	if(text[0] in telemarketers):
+    		del telemarketers[text[0]]
+    	if(text[1] in telemarketers):
+    		del telemarketers[text[1]]
+
+# remove receivers from telemarketers list
+for i in receivers: 			-> O(Number of lines in csv file1)
+	if(i in telemarketers):
+		del telemarketers[i]
+
+telemarketers=sorted(telemarketers.keys())	-> O(Number of lines in csv file1 * Log(Number of lines in csv file1))
+
+print("These numbers could be telemarketers: ")
+
+for caller in telemarketers: 		-> O(Number of lines in csv file1)
+	print(caller)
+
+Therefore final TC :
+O(Number of lines in csv file1 * Log(Number of lines in csv file1))
